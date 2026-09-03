@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>I'm Sorry, My Love</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 600px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            animation: fadeIn 1s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h1 {
+            color: #764ba2;
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            animation: heartbeat 1.5s ease-in-out infinite;
+        }
+
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .heart {
+            font-size: 3em;
+            color: #ff6b6b;
+            margin: 20px 0;
+            animation: pulse 1s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+
+        .message {
+            color: #333;
+            font-size: 1.2em;
+            line-height: 1.6;
+            margin: 30px 0;
+        }
+
+        .buttons-container {
+            position: relative;
+            margin-top: 40px;
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+
+        button {
+            padding: 15px 40px;
+            font-size: 1.1em;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .forgive-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .forgive-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .forgive-love-btn {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+        }
+
+        .forgive-love-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(245, 87, 108, 0.4);
+        }
+
+        .no-btn {
+            position: absolute;
+            background: linear-gradient(135deg, #a8a8a8 0%, #7a7a7a 100%);
+            color: white;
+            transition: all 0.2s ease;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .response {
+            margin-top: 30px;
+            font-size: 1.3em;
+            color: #764ba2;
+            font-weight: bold;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        .celebration {
+            font-size: 3em;
+            margin-top: 20px;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 30px 20px;
+            }
+
+            h1 {
+                font-size: 2em;
+            }
+
+            .message {
+                font-size: 1em;
+            }
+
+            button {
+                padding: 12px 30px;
+                font-size: 1em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>I'm So Sorry, My Love</h1>
+        <div class="heart">❤️</div>
+        <div class="message">
+            <p>I know I've made mistakes, and I deeply regret everything bad I've done. You mean the world to me, and I want to make things right.</p>
+            <p style="margin-top: 15px;">I promise to be better, to listen more, and to cherish every moment with you.</p>
+            <p style="margin-top: 15px;">Can you find it in your heart to forgive me?</p>
+        </div>
+
+        <div class="buttons-container" id="buttonsContainer">
+            <button class="forgive-love-btn" onclick="handleResponse('love')">I Forgive You & I Love You ❤️</button>
+            <button class="forgive-btn" onclick="handleResponse('forgive')">I Forgive You</button>
+            <button class="no-btn" id="noBtn" onmouseover="moveButton()" ontouchstart="moveButton(event)">I Don't Forgive You</button>
+        </div>
+
+        <div id="response" class="response hidden"></div>
+    </div>
+
+    <script>
+        let shrinkCount = 0;
+        const maxShrinks = 10;
+        let hasResponded = false;
+
+        function moveButton() {
+            if (hasResponded) return;
+
+            const btn = document.getElementById('noBtn');
+            const container = document.getElementById('buttonsContainer');
+
+            // Get container dimensions
+            const containerRect = container.getBoundingClientRect();
+            const btnRect = btn.getBoundingClientRect();
+
+            // Calculate safe movement area
+            const maxX = containerRect.width - btnRect.width;
+            const maxY = containerRect.height - btnRect.height;
+
+            // Generate random position
+            const randomX = Math.random() * maxX;
+            const randomY = Math.random() * maxY;
+
+            // Move button
+            btn.style.left = randomX + 'px';
+            btn.style.top = randomY + 'px';
+
+            // Shrink button progressively
+            if (shrinkCount < maxShrinks) {
+                shrinkCount++;
+                const newScale = 1 - (shrinkCount * 0.08);
+                btn.style.transform = `scale(${newScale})`;
+
+                if (shrinkCount >= maxShrinks) {
+                    btn.style.display = 'none';
+                }
+            }
+        }
+
+        function handleResponse(type) {
+            if (hasResponded) return;
+            hasResponded = true;
+
+            const buttonsContainer = document.getElementById('buttonsContainer');
+            const responseDiv = document.getElementById('response');
+
+            // Hide all buttons
+            buttonsContainer.style.display = 'none';
+
+            // Show response
+            responseDiv.classList.remove('hidden');
+
+            if (type === 'love') {
+                responseDiv.innerHTML = `
+                    <div>Thank you, my love! You've made me the happiest person! ❤️</div>
+                    <div class="celebration">🎉💕✨</div>
+                    <div style="margin-top: 20px; font-size: 0.9em; color: #666;">
+                        I promise to cherish you every single day and be the person you deserve.
+                    </div>
+                `;
+            } else if (type === 'forgive') {
+                responseDiv.innerHTML = `
+                    <div>Thank you so much for forgiving me! 🙏</div>
+                    <div class="celebration">🌟💖🌸</div>
+                    <div style="margin-top: 20px; font-size: 0.9em; color: #666;">
+                        I'll work hard every day to earn your trust and make you smile.
+                    </div>
+                `;
+            }
+        }
+
+        // Prevent context menu on mobile to avoid accidental selections
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+        });
+
+        // Initialize button position
+        window.addEventListener('load', function() {
+            const btn = document.getElementById('noBtn');
+            btn.style.left = '50%';
+            btn.style.top = '150px';
+            btn.style.transform = 'translateX(-50%)';
+        });
+    </script>
+</body>
+</html>
